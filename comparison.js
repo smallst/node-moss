@@ -1,31 +1,6 @@
 const {HashtblDict} = require('./dictionary')
-/*
-let intersection_old = (l1, l2) => {
-  let common = []
-  for(let v in l1){
-    if(!l2.every(l => l.v != v.v)) {
-      common.push(v)
-    }
-  }
-  return common
-}
-*/
 
 let intersection = (l1, l2) => l1.filter(l => l2.some(v => v[0] == l[0]))
-/*
-let make_pair_comp = (k0, file_list) => {
-  file_list.reduce((x, [k,v]) => {
-    FileDict.insert(k, intersection(file_list.find(f=>f.k == k0), v), x)
-  }, FileDict.empty)
-}
-
-let compare_old = (d) => {
-  let file_list = d.to_list()
-  file_list.reduce((x, [k,v]) => {
-    CompDict.insert(k, (make_pair_comp (k, file_list)), x)
-  }, CompDict.empty)
-}
-*/
 
 let make_pair_comp = (k0, file_list) => {
   let fileDict = {}
@@ -56,15 +31,12 @@ let cmp_tuple = ([k1,s1], [k2, s2]) => {
 
 let create_sim_list = (comp_dict, file_hashes_dict, t) => {
   let comp_list = Object.entries(comp_dict);
-  // console.log('start',comp_list)
   let comp_res = []
   for(let i = 0; i< comp_list.length; i++) {
     let k = comp_list[i][0]
     let d = comp_list[i][1] // dict of intersection
-    // console.log('hashes',)
     let v = file_hashes_dict[k] // hashes
     let os = [0, 0]
-    // console.log("v?::", v)
     if(v) {
       let file_length = v.length
       let file_ss = Object.entries(d)
@@ -80,7 +52,6 @@ let create_sim_list = (comp_dict, file_hashes_dict, t) => {
       }
     }
     let sim_score = 0
-    // console.log('os:', os)
     if(os[1] != 0) {
       sim_score = os[0]/os[1]
       if(sim_score >= t) {
@@ -88,7 +59,6 @@ let create_sim_list = (comp_dict, file_hashes_dict, t) => {
       }
     }
   }
-  // console.log('before sort',comp_res)
   return comp_res.sort(cmp_tuple)
 }
 
