@@ -27,6 +27,15 @@ let compare_old = (d) => {
 }
 */
 
+let make_pair_comp = (k0, file_list) => {
+  let fileDict = {}
+  let p = file_list.find(f => f[0] == k0)
+  for(let j = 0;j < file_list.length; j++) {
+    fileDict[file_list[j][0]] = intersection(p[1], file_list[j][1]);
+  }
+  return fileDict;
+}
+
 let compare = (d) => {
   let file_list = Object.entries(d)
   let compDict = {}
@@ -47,12 +56,15 @@ let cmp_tuple = ([k1,s1], [k2, s2]) => {
 
 let create_sim_list = (comp_dict, file_hashes_dict, t) => {
   let comp_list = Object.entries(comp_dict);
+  // console.log('start',comp_list)
   let comp_res = []
   for(let i = 0; i< comp_list.length; i++) {
     let k = comp_list[i][0]
     let d = comp_list[i][1] // dict of intersection
+    // console.log('hashes',)
     let v = file_hashes_dict[k] // hashes
     let os = [0, 0]
+    // console.log("v?::", v)
     if(v) {
       let file_length = v.length
       let file_ss = Object.entries(d)
@@ -68,6 +80,7 @@ let create_sim_list = (comp_dict, file_hashes_dict, t) => {
       }
     }
     let sim_score = 0
+    // console.log('os:', os)
     if(os[1] != 0) {
       sim_score = os[0]/os[1]
       if(sim_score >= t) {
@@ -75,6 +88,7 @@ let create_sim_list = (comp_dict, file_hashes_dict, t) => {
       }
     }
   }
+  // console.log('before sort',comp_res)
   return comp_res.sort(cmp_tuple)
 }
 
@@ -82,17 +96,27 @@ let create_pair_sim_list = (f_name, f_dict_list) => {
   if(f_dict_list.length == 0) {
     return []
   }
-  let f_length = f_dict_list.find(l => l[0] == f_name).length
-  f_dict_list.reduce((lst, [k, v]) => {
+  let f_length = f_dict_list.find(l => l[0] == f_name)[1].length
+  let res = []
+  for(let i = 0; i< f_dict_list.length; i++) {
+    let k = f_dict_list[i][0]
+    let v = f_dict_list[i][1]
     if(k == f_name) {
-      return lst
+      continue;
     }
     else if(f_length == 0) {
-      lst.unshift([k, 0])
-      return lst
+      res.push([k, 0])
+    }else {
+      res.push([k, v.length/f_length])
     }
-    else {
-      return [[k, v.length/f_length]].concat(lst)
-    }
-  }, [])
+  }
+  return res;
+}
+
+module.exports = {
+  intersection,
+  compare,
+  create_sim_list,
+  create_pair_sim_list,
+  make_pair_comp
 }
