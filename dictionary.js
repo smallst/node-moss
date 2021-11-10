@@ -1,13 +1,16 @@
-class HashTable {
+class HashTableDict {
   constructor() {
-    this.table = new Array(127);
+    this.table = new Array(10000);
     this.size = 0;
   }
 
   _hash(key) {
     let hash = 0;
     for (let i = 0; i < key.length; i++) {
-      hash += key.charCodeAt(i);
+      // hash += key.charCodeAt(i);
+      let chr   = key.charCodeAt(i);
+      hash  = ((hash << 5) - hash) + chr;
+      hash |= 0; // Convert to 32bit integer
     }
     return hash % this.table.length;
   }
@@ -35,15 +38,4 @@ class HashTable {
     }
   }
 }
-class HashtblDict {
-  constructor(k, v) {
-  }
-
-  size (d) {
-    return d.length
-  }
-
-  member(k, d) {
-    
-  }
-}
+module.exports = HashTableDict;
