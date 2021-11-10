@@ -203,13 +203,13 @@ let tests = {
     ocaml_info.keywords,
                            ocaml_keywords),
   "ocaml_spec_chars" : () => assert_equal(
-                             ocaml_info.special_chars, ocaml_spec_chars),
+                             ocaml_info.spec_chars, ocaml_spec_chars),
   "ocaml_comments_info" : () => assert_equal(
     ocaml_info.comment_info,
                                 ocaml_comments_info),
 
   "java_keywords" : () => assert_equal(java_info.keywords, java_keywords),
-  "java_spec_chars" : () => assert_equal(java_info.special_chars, java_spec_chars),
+  "java_spec_chars" : () => assert_equal(java_info.spec_chars, java_spec_chars),
   "java_comments_info" : () => assert_equal(
     java_info.comment_info,
                                java_comments_info),

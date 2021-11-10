@@ -46,8 +46,11 @@ t.push([1,2,3,4,5]); r.push("1,2,3,4"); w.push(2)
 /* tests to check Winnowing functionality */
 for(let j =0; j <  w.length; j++) {
   let res = winnow(w[j],t[j])
-  if(res.map((r) => r.v).join(',') != r[j]) {
-    console.log('err in ', j, res.map(r=>r.v).join(':'), r[j])
+  if(res.map((r) => r[0]).join(',') != r[j]) {
+    console.log('err in ', j, res.map(r=>r[0]).join(':'), r[j])
+  }
+  else {
+    console.log('success')
   }
 }
 /*
