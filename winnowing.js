@@ -4,12 +4,12 @@ const max_int = 4611686018427387903;
    h: hashes list */
 module.exports.winnow = function (w, h) {
 
-  let findMin = (win) => {
-    let min = {v:win[0], p: 0};
+  let mincheck = (win) => {
+    let min = [win[0],  0];
     for (let [i, wi] of win.entries()) {
-      if(wi <= min.v) {
-        min.v = wi;
-        min.p = i;
+      if(wi <= min[0]) {
+        min[0] = wi;
+        min[1] = i;
       }
     }
     // console.log('win, min', win, min)
@@ -17,21 +17,21 @@ module.exports.winnow = function (w, h) {
   }
   let window = Array(w).fill(max_int)
 
-  let min = {v: max_int, p: 0}
+  let min = [ max_int,  0]
   let acc = []
 
   for(let [index, hi] of h.entries()) {
     window = window.concat([hi]).slice(1)
-    if(hi <= min.v) {
-      min.v = hi;
-      min.p = w-1;
-      acc.push({v: hi, p: index})
+    if(hi <= min[0]) {
+      min[0] = hi;
+      min[1] = w-1;
+      acc.push([ hi,  index])
     }
     else {
-      min.p = min.p - 1;
-      if(min.p < 0) {
-        min = findMin(window);
-        acc.push({v: min.v, p: (index - w + 1 + min.p)})
+      min[1] = min[1] - 1;
+      if(min[1] < 0) {
+        min = mincheck(window);
+        acc.push([min[0], (index - w + 1 + min[1])])
       }
     }
     // console.log('min: ', min)

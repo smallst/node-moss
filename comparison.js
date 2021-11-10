@@ -43,10 +43,12 @@ let create_sim_list = (comp_dict, file_hashes_dict, t) => {
       for(let j = 0; j < file_ss.length; j ++) {
           let k1 = file_ss[j][0]
           let v1 = file_ss[j][1]
+        console.log('debug::k, v, k1, v1:::',k, v.length, k1, v1.length )
         if(k != k1 && file_length > 0) {
             let s = v1.length / file_length
             if (s >=t) {
               os = [os[0]+s, os[1]+1]
+              // console.log("::::",s, v1.length, file_length, os)
             }
         }
       }

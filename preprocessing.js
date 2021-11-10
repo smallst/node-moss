@@ -13,7 +13,7 @@ let get_language_info = (language_file) => {
   let json = JSON.parse(rawdata);
   return {
     keywords: json.keywords,
-    special_chars: json['special characters'],
+    spec_chars: json['special characters'],
     comment_info: {
       single_comment: json.comment,
       multi_comment_start: json['comment-start'],
@@ -128,7 +128,9 @@ let determine_language_file = (f) => {
   if(f.endsWith('c')) return "c_info.json"
   if(f.endsWith('java')) return "java_info.json"
   if(f.endsWith('py')) return "python_info.json"
-  console.err('This file format is not supported yet')
+  if(f.endsWith('ml')) return "ocaml_info.json"
+  if(f.endsWith('mli')) return "ocaml_info.json"
+  console.log('This file format is not supported yet')
 }
 
 let get_ngrams = (f, n) => {
@@ -136,10 +138,10 @@ let get_ngrams = (f, n) => {
   let language_info = get_language_info(language_file)
   let keywords = language_info.keywords
   let spec_chars = language_info.spec_chars
-  let f_string = fs.readFileSync(f);
+  let f_string = fs.readFileSync(f, {encoding:'utf8', flag:'r'});
   let is_txt = f.endsWith('txt')
   let com_info = language_info.comment_info
-  let noise_removed_str = remove_noise(com_info, f_string, keywords, spec_chars, is_txt)
+  let noise_removed_str = remove_noise(com_info, f_string, keywords, spec_chars, is_txt);
   return k_grams(noise_removed_str, n)
 }
 
@@ -154,6 +156,7 @@ let get_file_positions = (dir, dir_name, filename, positions) => {
 
 module.exports = {
   get_ngrams,
+  hash_file,
   k_grams,
   remove_noise,
   get_language_info
