@@ -1,5 +1,3 @@
-const {HashtblDict} = require('./dictionary')
-
 let intersection = (l1, l2) => l1.filter(l => l2.some(v => v[0] == l[0]))
 
 let make_pair_comp = (k0, file_list) => {

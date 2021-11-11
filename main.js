@@ -1,7 +1,6 @@
 const preprocessing = require('./preprocessing')
 const comparation = require('./comparison')
 const winnowing = require('./winnowing')
-const HashtblDict = require('./dictionary')
 const fs = require('fs')
 
 
@@ -27,9 +26,22 @@ let concat_result_list = (lst, is_pair, t) => {
     for(let i = 0; i < lt.length;i ++) {
       res.push(lt[i][0], lt[i][1])
     }
-    return res;
+  return res
   }
  
+let handle_pair = (r, st) => {
+  let disp = Object.entries(r).reduce((d, [f,v]) => {
+    return d + comparation.create_pair_sim_list(f, Object.entries(r[f])).reduce((s, [f2, ss]) => {
+      if(ss < st.threshold && f != f2) {
+        return s + ''
+      }
+      else {
+        return s + `${f}, ${f2}\n`
+      }
+    }, '')
+  }, '')
+  return disp
+}
 let test = (t) => {
   let tests = fs.readdirSync('./tests')
   tests.forEach(dir => {
@@ -37,7 +49,14 @@ let test = (t) => {
     let comp = comparation.compare(parsefiles)
     let files = comparation.create_sim_list(comp, parsefiles, t)
     let res = concat_result_list(files, false, t)
-    console.log(JSON.stringify(res))//, JSON.stringify(comp))
+    let st = {
+      results: comp,
+      files: res,
+      threshold: t,
+    }
+    let dp = handle_pair(st.results, st)
+    console.log(`${dir}:: ---------------`)
+    console.log(dp)
   })
   /*
   let concat_result_list = (lst, is_pair) => {
