@@ -1,0 +1,22 @@
+{
+  "name": "node-moss",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/smallst/node-moss.git"
+  },
+  "keywords": [
+    "moss"
+  ],
+  "author": "smallst",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/smallst/node-moss/issues"
+  },
+  "homepage": "https://github.com/smallst/node-moss#readme"
+}

@@ -133,20 +133,26 @@ let determine_language_file = (f) => {
   console.log('This file format is not supported yet')
 }
 
-let get_ngrams = (f, n) => {
-  let language_file = determine_language_file(f)
+let get_ngrams = (f_string, n, language_file) => {
   let language_info = get_language_info(language_file)
   let keywords = language_info.keywords
   let spec_chars = language_info.spec_chars
-  let f_string = fs.readFileSync(f, {encoding:'utf8', flag:'r'});
-  let is_txt = f.endsWith('txt')
+  let is_txt = language_file == 'txt_info.json'
   let com_info = language_info.comment_info
   let noise_removed_str = remove_noise(com_info, f_string, keywords, spec_chars, is_txt);
   return k_grams(noise_removed_str, n)
 }
 
 let hash_file = (f) => {
-  let n_grams = get_ngrams(f, 35)
+  let language_file = determine_language_file(f)
+  let f_string = fs.readFileSync(f, {encoding:'utf8', flag:'r'});
+  let n_grams = get_ngrams(f_string, 35, language_file)
+  return n_grams.map((g) => hashCode(g))
+}
+
+let hash_coco_session = (s) => {
+  let language_file = s.language + '_info.json'
+  let n_grams = get_ngrams(s.code, 35, language_file)
   return n_grams.map((g) => hashCode(g))
 }
 
