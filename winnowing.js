@@ -22,7 +22,7 @@ module.exports.winnow = function (w, h) {
 
   for(let [index, hi] of h.entries()) {
     window = window.concat([hi]).slice(1)
-    if(hi <= min[0]) {
+    if(hi < min[0]) {
       min[0] = hi;
       min[1] = w-1;
       acc.push([ hi,  index])

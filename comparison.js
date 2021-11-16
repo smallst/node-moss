@@ -21,6 +21,36 @@ let compare = (d) => {
   }
   return compDict
 }
+
+let compareV2 = (file_hashes) => {
+  let hash_index = {}
+  for(let f in file_hashes) {
+    let hashes = file_hashes[f];
+    hashes.forEach((h) => {
+      if(!(h[0] in hash_index)) {
+        hash_index[h[0]] =  []
+      }
+      hash_index[h[0]].push([f, h[1]])
+    })
+  }
+
+  let compDict = {}
+  Object.entries(file_hashes).forEach((fl) => {
+    let fileDict = {}
+    Object.keys(file_hashes).forEach((key, index) => {
+      fileDict[key] = []
+    })
+    let hashes = fl[1]
+
+    hashes.forEach((h) => {
+      hash_index[h[0]].forEach(([mf, _]) => {
+        fileDict[mf].push(h)
+      })
+    })
+    compDict[fl[0]] = fileDict;
+  })
+  return compDict
+  }
 let strcmp = (a, b) =>  (a<b ? -1:(a>b?1:0))
 let cmp_tuple = ([k1,s1], [k2, s2]) => {
   if(s1 == s2) return k1-k2
@@ -86,6 +116,7 @@ let create_pair_sim_list = (f_name, f_dict_list) => {
 module.exports = {
   intersection,
   compare,
+  compareV2,
   create_sim_list,
   create_pair_sim_list,
   make_pair_comp
