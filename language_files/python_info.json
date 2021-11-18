@@ -28,5 +28,5 @@
   "comment-end": "'''",
   "comment": "#",
   "comments-nest": false,
-  "strings":false
+  "strings":true
 }

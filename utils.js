@@ -15,12 +15,18 @@ let parse_dir = (d) => {
   return file_dict;
 }
 
-let parse_sessions = (ss) => {
+let parse_template = (s) => {
+  let hashes = preprocessing.hash_coco_session(s)
+  let winnowed_hashes = winnowing.winnow(40, hashes)
+  return winnowed_hashes.map(h => h[0])
+}
+let parse_sessions = (ss, template) => {
+  console.log(template)
   let file_dict = {}
   ss.forEach(s => {
     let  hashes = preprocessing.hash_coco_session(s)
     let winnowed_hashes = winnowing.winnow(40, hashes)
-    file_dict[s.creator] = winnowed_hashes
+    file_dict[s.creator] = winnowed_hashes.filter(h => template.indexOf(h[0]) == -1)
   })
   return file_dict
 }
@@ -57,5 +63,6 @@ module.exports = {
   handle_pair,
   concat_result_list,
   parse_sessions,
+  parse_template,
   parse_dir
 }

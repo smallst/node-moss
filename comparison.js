@@ -44,9 +44,9 @@ let compareV2 = (file_hashes) => {
 
     hashes.forEach((h) => {
       hash_index[h[0]].forEach(([mf, _]) => {
-        if(!(mf in compDict && fl[0] in compDict[mf])){
+        // if(!(mf in compDict && fl[0] in compDict[mf])){
           fileDict[mf].push(h)
-        }
+        // }
       })
     })
     compDict[fl[0]] = fileDict;
@@ -69,6 +69,7 @@ let create_sim_list = (comp_dict, file_hashes_dict, t) => {
     let os = [0, 0]
     if(v) {
       let file_length = v.length
+      if(file_length < 10) continue
       let file_ss = Object.entries(d)
       for(let j = 0; j < file_ss.length; j ++) {
           let k1 = file_ss[j][0]

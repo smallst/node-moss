@@ -174,6 +174,7 @@ public class DumbAI extends Controller {
 
 let ocaml_info = get_language_info("ocaml_info.json")
 let java_info = get_language_info("java_info.json")
+let python_info = get_language_info("python_info.json")
 function arrayEquals(a, b) {
     return Array.isArray(a) &&
         Array.isArray(b) &&
@@ -290,3 +291,10 @@ for(const key in tests) {
   // if(key == 'remove_noise')
   console.log(key, "::", tests[key]())
 }
+
+  let template = {code: "count = 0;\n\ndef choose(collector):\n    global count\n    count += 1\n    return ['fire', 'water', 'earth'][count % 3]\n\ndef collectHandler(data):\n    unit = data.target\n    while True:\n        if unit.item:\n            unit.bring()\n        else:\n            fruit = unit.findNearestFruit()\n            if fruit:\n                unit.pick(fruit)\n\nhero.on('spawn-runner', collectHandler)\n\nhero.spawnCollector()\nhero.spawnCollector()\n\nwhile True:\n    if hero.fire > 3:\n        hero.cast('fire-arrow')\n    elif hero.water >= 4 and len(hero.findMyCollectors()):\n        hero.transform(hero.findMyCollectors()[0], 'runner')\n    elif hero.earth > 3:\n        hero.cast('earth-arrow')\n", language: 'python' }
+let t2 = 
+console.log(remove_noise(python_info.comment_info,
+                         template.code,
+                         python_info.keywords, python_info.spec_chars,
+                        false))

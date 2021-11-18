@@ -1,4 +1,5 @@
 const utils = require('./utils')
+const preprocessing = require('./preprocessing')
 const comparation = require('./comparison')
 
 let compare_dir = (dir, t) => {
@@ -27,8 +28,9 @@ let compare_dir_v2 = (dir, t) => {
     pairs: dp
   }
 }
-let compare_sessions = (sessions, t) => {
-  let parsefiles = utils.parse_sessions(sessions)
+let compare_sessions = (sessions, template, t) => {
+  let template_hash = utils.parse_template(template)
+  let parsefiles = utils.parse_sessions(sessions, template_hash)
   let comp = comparation.compare(parsefiles)
   let files = comparation.create_sim_list(comp, parsefiles, t)
   let res = utils.concat_result_list(files, false, t)
