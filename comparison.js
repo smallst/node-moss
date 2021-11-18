@@ -44,7 +44,9 @@ let compareV2 = (file_hashes) => {
 
     hashes.forEach((h) => {
       hash_index[h[0]].forEach(([mf, _]) => {
-        fileDict[mf].push(h)
+        if(!(mf in compDict && fl[0] in compDict[mf])){
+          fileDict[mf].push(h)
+        }
       })
     })
     compDict[fl[0]] = fileDict;

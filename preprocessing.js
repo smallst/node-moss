@@ -10,6 +10,7 @@ Object.defineProperty(Array.prototype, 'flat', {
 let get_language_info = (language_file) => {
   let path = `./language_files/${language_file}`
   let rawdata = fs.readFileSync(path);
+  // console.log(path)
   let json = JSON.parse(rawdata);
   return {
     keywords: json.keywords,
@@ -34,7 +35,7 @@ let split_and_keep_on_spec_chars = (spec_chars, str) => {
 }
 
 let split_on_str = (str_to_split_on, acc_str_arr, str_to_split) => {
-  str_to_split_on = str_to_split_on.replace(/\(/g, '\\\(').replace(/\)/g, '\\\)').replace(/\*/g, '\\*')
+  str_to_split_on = str_to_split_on.replace(/\(/g, '\\\(').replace(/\)/g, '\\\)').replace(/\*/g, '\\*').replace(/\[/g, '\\[').replace(/\]/g, '\\]')
   return acc_str_arr.concat(str_to_split.split(new RegExp(`(${str_to_split_on})`)))
 }
 
@@ -163,7 +164,8 @@ let get_file_positions = (dir, dir_name, filename, positions) => {
 module.exports = {
   get_ngrams,
   hash_file,
+  hash_coco_session,
   k_grams,
   remove_noise,
-  get_language_info
+  get_language_info,
 }

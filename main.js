@@ -4,7 +4,7 @@ const moss = require('./index')
 
 
 let test = (t) => {
-  let tests = fs.readdirSync('./tests')
+  let tests = fs.readdirSync('./tests').filter((d) => fs.statSync('./tests/'+d).isDirectory() )
 
   let start = new Date()
   tests.forEach(dir => {
@@ -22,4 +22,23 @@ let test = (t) => {
   console.log('time flies: ', (new Date() - start)/1000 , 's')
 }
 
-test(0.4)
+let testCQ = (t) => {
+
+  let cq = fs.readFileSync('./tests/CQ.json', {encoding: 'utf-8'})
+  let sessions = JSON.parse(cq)
+  let start = new Date()
+  let st = moss.compare_sessions(Object.values(sessions).slice(0, 300), t)
+  console.log('time flies: ', (new Date() - start)/1000 , 's')
+  console.log('---pair----')
+  // console.log(st.pairs)
+  for(let p in st.pairs) {
+    let pp = st.pairs[p]
+    // console.log(pp)
+    console.log(JSON.stringify(st.hashes[pp[0]]))
+    console.log( JSON.stringify(st.hashes[pp[1]]), pp[2])
+    // console.log(p[0], p[1], p[2])
+    break
+  }
+}
+
+testCQ(0.95)

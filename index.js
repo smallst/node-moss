@@ -34,6 +34,7 @@ let compare_sessions = (sessions, t) => {
   let res = utils.concat_result_list(files, false, t)
   let dp = utils.handle_pair(comp, t)
   return {
+    hashes: parsefiles,
     results: comp,
     files: res,
     threshold: t,

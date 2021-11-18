@@ -1,0 +1,15 @@
+{
+  "keywords": [
+    "and","break","do","else","elseif","end","false","for","function","if","in","local","nil","not","or","repeat","return","then","true","until","while"
+  ],
+  "special characters": [
+    "(", ")", "[", "]", "{", "}",
+    "*", "+", "-", "/",  "%" , "^", "#",
+    ",", ":", "=", ";",
+  	".", "~", "<", ">"],
+  "comment-start" : "--[[",
+  "comment-end" : "]]",
+  "comment" : "--",
+  "comments-nest": false,
+  "strings":true
+}
