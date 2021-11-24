@@ -28,17 +28,18 @@ let testCQ = (t) => {
 
   let cq = fs.readFileSync('./tests/CQ.json', {encoding: 'utf-8'})
   let sessions = JSON.parse(cq)
+  let pysessions = Object.values(sessions).filter(s => s.language == 'python').sort(s => -s.wins/(s.wins+s.losses))
   let start = new Date()
-  let st = moss.compare_sessions(Object.values(sessions).filter(s=> s.language == 'python').slice(0, 300), template, t)
+  let st = moss.compare_sessions(pysessions.slice(0, 300), template, t)
   console.log('time flies: ', (new Date() - start)/1000 , 's')
   console.log('---pair----')
   // console.log(st.pairs)
   for(let p in st.pairs) {
     let pp = st.pairs[p]
-    console.log(pp)
+    // console.log(pp)
     // console.log(JSON.stringify(st.hashes[pp[0]]))
     // console.log( JSON.stringify(st.hashes[pp[1]]), pp[2])
-    // console.log(pp[0], p[1], p[2])
+    console.log(sessions[pp[0]].name, sessions[pp[1]].name, pp[2])
     // break
   }
 }
