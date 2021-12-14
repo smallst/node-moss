@@ -78,12 +78,18 @@ let remove_comments = (comment_start, comment_end, comments_nest, code_str) => {
 }
 
 let replace_generics = (keywords, spec_chars, str_arr) => {
+  let strings = 0, stringd = 0;
   return str_arr.map((str) => {
     if(keywords.indexOf(str) != -1 || (str.length == 1 && spec_chars.indexOf(str) != -1)) {
+      if(str == '"') stringd = 1 - stringd;
+      if(str == "'") strings = 1 - strings;
       return str
     }
     else {
-      if(isNaN(+str)) {
+      if(stringd + strings) {
+        return str
+      }
+      else if(isNaN(+str)) {
         return 'v'
       }
       else {
@@ -104,7 +110,7 @@ let remove_noise = (comment_info, code_string, keywords, spec_chars, is_txt) => 
     return remove_comments(comment_info.multi_comment_start, comment_info.multi_comment_end, comment_info.nest, s).join('')
   }
   let rm_strings = (s) => {
-    if(comment_info.strings) return remove_strings(s)
+    // if(comment_info.strings) return remove_strings(s)
     return s
   }
   let temp = (rm_one_line_comment(rm_mult_line_comment(rm_strings(code_string))))
@@ -141,6 +147,7 @@ let get_ngrams = (f_string, n, language_file) => {
   let is_txt = language_file == 'txt_info.json'
   let com_info = language_info.comment_info
   let noise_removed_str = remove_noise(com_info, f_string, keywords, spec_chars, is_txt);
+  // console.log(noise_removed_str)
   return k_grams(noise_removed_str, n)
 }
 

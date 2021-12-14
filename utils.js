@@ -21,7 +21,6 @@ let parse_template = (s) => {
   return winnowed_hashes.map(h => h[0])
 }
 let parse_sessions = (ss, template) => {
-  console.log(template)
   let file_dict = {}
   ss.forEach(s => {
     let  hashes = preprocessing.hash_coco_session(s)

@@ -69,7 +69,7 @@ let create_sim_list = (comp_dict, file_hashes_dict, t) => {
     let os = [0, 0]
     if(v) {
       let file_length = v.length
-      if(file_length < 10) continue
+      if(file_length < 5) continue
       let file_ss = Object.entries(d)
       for(let j = 0; j < file_ss.length; j ++) {
           let k1 = file_ss[j][0]
@@ -107,7 +107,7 @@ let create_pair_sim_list = (f_name, f_dict_list) => {
     if(k == f_name) {
       continue;
     }
-    else if(f_length == 0) {
+    else if(f_length < 8 || v.length < 8) {
       res.unshift([k, 0])
     }else {
       res.unshift([k, v.length/f_length])
